@@ -1,5 +1,5 @@
 # NICS Performance Stack
-![[diagram.png]]
+![NICS Stack Architecture](assets/diagram.png)
 ## Required Dependencies
 
 ### Blender (free)
