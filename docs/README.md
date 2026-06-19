@@ -33,7 +33,7 @@ This free online component can be accessed [here](https://naarm-institute-of-con
 Drag and drop in any audio file! This tool will help you to generate MIDI files that can be played back to Touch Designer and trigger lights
 
 ---
-### Ableton / a DAW  [![Ableton](https://img.shields.io/badge/Ableton-Live%2012-black?style=flat-square&logo=abletonlive)]()
+### Ableton / a DAW  [![Ableton|114](https://img.shields.io/badge/Ableton-Live%2012-yellow?style=flat-square&logo=abletonlive)]()
 
 The lite version of Ableton will work fine here, it comes bundled with a lot of MIDI controllers for free, or can be purchased online for a few $ from sketchy websites. The full version of Ableton can be purchased from Ableton themselves. Alternatively there is a free trial downloadable [here](https://www.ableton.com/en/trial/) 
 
