@@ -1,0 +1,32 @@
+{
+	"nodes":[
+		{"id":"6145df4d9ba2d150","type":"text","text":"Projector / LED Screen","x":420,"y":190,"width":250,"height":60},
+		{"id":"101703693fa36750","type":"text","text":"Sound","x":86,"y":320,"width":250,"height":60,"color":"#f8ffc7"},
+		{"id":"38ad3f3dea53c4db","type":"text","text":"Video","x":86,"y":190,"width":250,"height":60,"color":"4"},
+		{"id":"1e0fd26bb1032986","type":"text","text":"Speakers","x":420,"y":320,"width":250,"height":60},
+		{"id":"e64a1d5e7e5811e4","type":"text","text":"NICS Lights / Your lights!","x":420,"y":107,"width":250,"height":50},
+		{"id":"0e4043e29e72a54e","type":"text","text":"Blender pre-vis","x":420,"y":23,"width":250,"height":50},
+		{"id":"68cb92343d178dc1","type":"text","text":"DMX","x":86,"y":48,"width":250,"height":60,"color":"2"},
+		{"id":"51dea6776d8b00d0","type":"text","text":"# Outputs","x":86,"y":-60,"width":250,"height":60,"color":"6"},
+		{"id":"8b16757b5f4e8979","type":"text","text":"TouchDesigner","x":-315,"y":108,"width":180,"height":50,"color":"5"},
+		{"id":"8b1e68bb827693a1","type":"text","text":"# Processing","x":-475,"y":-60,"width":250,"height":60,"color":"6"},
+		{"id":"1cacaa794ba0cbfa","type":"text","text":"# Inputs","x":-1020,"y":-60,"width":250,"height":60,"color":"6"},
+		{"id":"37e5f2accc21c993","x":-1020,"y":190,"width":250,"height":60,"type":"text","text":"Your Music!"},
+		{"id":"8c58c40ad2500dfa","type":"text","text":"NICS MIDI Lighting Tool","x":-685,"y":195,"width":250,"height":50},
+		{"id":"d18f0cc12846813c","type":"text","text":"Ableton","x":-650,"y":295,"width":180,"height":50,"color":"3"}
+	],
+	"edges":[
+		{"id":"3e70965652eae249","fromNode":"38ad3f3dea53c4db","fromSide":"right","toNode":"6145df4d9ba2d150","toSide":"left"},
+		{"id":"80cfae5276818810","fromNode":"68cb92343d178dc1","fromSide":"right","toNode":"e64a1d5e7e5811e4","toSide":"left"},
+		{"id":"27ecf7e429f3e819","fromNode":"68cb92343d178dc1","fromSide":"right","toNode":"0e4043e29e72a54e","toSide":"left"},
+		{"id":"85a03104ccbd5bcf","fromNode":"101703693fa36750","fromSide":"right","toNode":"1e0fd26bb1032986","toSide":"left"},
+		{"id":"df751c7ef98f6a30","fromNode":"8b16757b5f4e8979","fromSide":"right","toNode":"68cb92343d178dc1","toSide":"left"},
+		{"id":"c436df8de8d470e2","fromNode":"8b16757b5f4e8979","fromSide":"right","toNode":"38ad3f3dea53c4db","toSide":"left"},
+		{"id":"bf8b16dfad9feedd","fromNode":"d18f0cc12846813c","fromSide":"right","toNode":"101703693fa36750","toSide":"left"},
+		{"id":"f9d8658d552a0b76","fromNode":"d18f0cc12846813c","fromSide":"right","toNode":"8b16757b5f4e8979","toSide":"left"},
+		{"id":"e71387287cf29065","fromNode":"8c58c40ad2500dfa","fromSide":"right","toNode":"8b16757b5f4e8979","toSide":"left"},
+		{"id":"f9e3bfcb3effdfe4","fromNode":"8c58c40ad2500dfa","fromSide":"right","toNode":"101703693fa36750","toSide":"left"},
+		{"id":"ccdffa3314c37792","fromNode":"37e5f2accc21c993","fromSide":"right","toNode":"8c58c40ad2500dfa","toSide":"left"},
+		{"id":"8d3805443bd39b18","fromNode":"37e5f2accc21c993","fromSide":"right","toNode":"d18f0cc12846813c","toSide":"left"}
+	]
+}

@@ -19,9 +19,11 @@ Export the lighting MIDI file from the browser.
 ## TouchDesigner Receiver
 
 
-1. Open the NICS TouchDesigner patch.
-2. Confirm MIDI input device.
-3. Confirm channel 1 is received.
+1. Open the NICS TouchDesigner .toe file.
+2. Open Dialogs->MIDI Mapper on the TouchDesigner top bar (Alt+d). 
+	1. Confirm MIDI input device is the correct LoopBack interface, assigned to slot 1. 
+	2. If it's not showing up, you may need to make sure your loopback is running and restart TouchDesigner, it often does not hot reload.
+3. Confirm channel 1 is receiving notes in the MIDI Mapper when they are played
 4. Confirm notes `0-17` trigger fixture groups.
 5. Confirm CC controls are received.
 6. Confirm fixture enables and phasor enables work.
