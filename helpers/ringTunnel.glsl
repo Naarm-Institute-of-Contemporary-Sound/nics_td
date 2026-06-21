@@ -77,10 +77,9 @@ float noise(vec3 p){
 void main(){
     vec2 uv=(gl_FragCoord.xy-.5*uResolution)/uResolution.y;
 
-    double speed=1.+double(clamp(songDir,0.,100.))*.00001;
-    double travel=double(time)*.25+double(lowAc)*.2*speed;
-    double loop=1256.63706144;
-    float z=float(travel-floor(travel/loop)*loop);
+    float speed=1.+clamp(songDir,0.,100.)*.00001;
+    float travel=time*.25+lowAc*.2*speed;
+    float z=mod(travel,1256.63706144);
     vec3 ro=cen(z);
 
     vec3 fwd=normalize(cen(z+1.5)-ro);

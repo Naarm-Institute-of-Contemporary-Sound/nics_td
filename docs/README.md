@@ -39,3 +39,23 @@ The lite version of Ableton will work fine here, it comes bundled with a lot of 
 
 Other DAWs capable of outputting MIDI notes and MIDI CC should work fine here, but are not documented yet
 
+---
+## The Glue - MIDI + Audio Loopback (all free)
+
+### MacOS
+[IACDriver](https://support.apple.com/en-au/guide/audio-midi-setup/ams1013/mac)
+[Blackhole](https://github.com/existentialaudio/blackhole#installation-instructions)
+These drivers run in the background and don't need an open application
+### Windows
+[LoopMIDI](https://www.tobias-erichsen.de/software/loopmidi.html)
+[Voicemeeter](https://vb-audio.com/Voicemeeter/)
+Both these programs must be installed and running while in use
+### Loopback Setup
+- Ensure Ableton / your DAW is outputting audio to either Blackhole audio (MacOS) or Voicemeeter Input (Win) 
+- Ensure Ableton / your DAW is outputting MIDI to your loopback device (IAC Driver 1 / Loop MIDI)
+- Ensure Blackhole / Voicemeeter is outputting to your real speakers so you can hear it
+- Ensure TouchDesigner is setup to receive MIDI
+	-  Open Dialogs->MIDI Mapper on the TouchDesigner top bar (Alt+d). 
+		1. Confirm MIDI input device is the correct LoopBack interface, assigned to slot 1. 
+		2. If it's not showing up, you may need to make sure your loopback is running and restart TouchDesigner, it often does not hot reload.
+- Ensure TouchDesigner is setup with the right audio loopback as input, zoom into the yellow area in the middle left of the file, there should be a blue box with a blue note, follow the instructions in that note to assign either Blackhole or Voicemeeter Out B1 as the input device
