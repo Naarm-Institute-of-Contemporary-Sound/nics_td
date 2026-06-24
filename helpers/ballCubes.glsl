@@ -17,8 +17,8 @@ out vec4 fragColor;
 #define PI 3.14159265359
 #define TAU 6.28318530718
 
-float timeVar = low * 0.05 + time * 0.04 + rmsAc * 0.02;
-float timeVar2 =low * 0.07 + time * 0.05 + rmsAc * 0.02;
+float timeVar =  low * 0.033  + time * 0.04 + rmsAc * 0.01;
+float timeVar2 = low * 0.045 + time * 0.05 + rmsAc * 0.015;
 vec2 uResolution = uTDOutputInfo.res.zw;
 
 
@@ -41,8 +41,8 @@ float scene(vec3 p) {
     vec3 bp = p;
     bp.z -= 2.0;
 
-    float c02 = cos(timeVar * 0.2);
-    float c04 = cos(timeVar * 0.4);
+    float c02 = cos(timeVar * 0.33);
+    float c04 = cos(timeVar * 0.66);
     float blend = sin(time * 0.15 + 0.3) * 0.4 + 0.5;
 
     float depth = 1.;//iLow*1.2 + 1.2;
@@ -51,8 +51,8 @@ float scene(vec3 p) {
         float fi = float(i);
         float si = sin(timeVar + fi * 0.3);
         float co = cos(timeVar2 - fi * 2.5) * 0.5 + cos(0.3 + timeVar2 - fi * 1.3) * 0.5;
-        float z = cos(fi)*depth * sin(fi * 2.0)*depth;
-        vec3 off = vec3(si * c04 * 0.9 + c02 * 0.6, co * 0.7, z * 0.8);
+        float z = cos(fi)*depth * sin(fi * 2.)*depth;
+        vec3 off = vec3(si * c04 * 0.9 + c02 * 0.6, co * 0.88, z * 0.8);
         vec3 pp = bp - off;
 
         float s = sphereSDF(pp, 0.3);
