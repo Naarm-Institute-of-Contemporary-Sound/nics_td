@@ -1,1 +1,1 @@
-![[diagram.png]]
+![System overview diagram](./assets/diagram.png)
