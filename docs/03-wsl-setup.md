@@ -29,7 +29,11 @@
 
 ## Screenies
 
-![WSL - First boot screen](./assets/wsl_first_boot.png)
+First boot on WSL:
+- ![WSL - First boot screen](./assets/wsl_first_boot.png)
+
+Loading NICS project:
+- ![WSL - NICS project](./assets/wsl_NICS.png)
 
 ## TODO
 
