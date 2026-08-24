@@ -37,6 +37,10 @@ Loading NICS project:
 
 ## TODO
 
+- Get GPU working :///
+
+        019c:fixme:winediag:wined3d_select_feature_level None of the requested D3D feature levels is supported on this GPU with the current shader backend.
+
 - Verify switching text editors
 
         ▸ Editor preference set in pref.txt: dats.texteditor -> C:\windows\system32\winebrowser.exe
@@ -61,7 +65,3 @@ Loading NICS project:
         →   The editor preference is stored in TD's pref.txt.
         →   You can also change it manually in TD: Edit > Preferences > DATs
         ▸ Native external editor support configured
-
-- Look into this wine console error:
-
-        019c:fixme:winediag:wined3d_select_feature_level None of the requested D3D feature levels is supported on this GPU with the current shader backend.
