@@ -3,13 +3,19 @@
 // 15/08/2026
 
 
-const int MAX_STEPS = 128;
-const float MAX_DIST = 100.0;
-const float EPSILON = 0.001;
+const int MAX_STEPS 	= 128;
+const float MAX_DIST 	= 100.0;
+const float EPSILON 	= 0.001;
+
+const vec3 BLACK 	= vec3(0, 0, 0);
+const vec3 WHITE 	= vec3(1, 1, 1);
+const vec3 RED 		= vec3(1, 0, 0);
+const vec3 GREEN 	= vec3(0, 1, 0);
+const vec3 BLUE 	= vec3(0, 0, 1);
 
 // #define TAU 6.28318530718
 
-// uniform vec4 time;
+uniform vec4 time;
 
 float sdf_box( vec3 p, vec3 b ){
 	vec3 q = abs(p) - b;
@@ -28,7 +34,6 @@ mat2 rot(float a) {
                 s,  c);
 }
 
-
 float differenceSDF(float distA, float distB) {
     return max(distA, -distB);
 }
@@ -45,8 +50,8 @@ float smoothDifferenceSDF(float a, float b, float k) {
 
 float sdf_scene(vec3 p) {
   	// return sdf_sphere(p);
-	float s1 = sdf_sphere(vec3(p.x, p.y, p.z));
-	float s2 = sdf_sphere(vec3(p.x, p.y, p.z));
+	float s1 = sdf_sphere(vec3(p.x+1.5, p.y, p.z));
+	float s2 = sdf_sphere(vec3(p.x-1.5, p.y, p.z));
 
 	return min(s1, s2);
 }
@@ -72,13 +77,13 @@ float march(vec3 eye, vec3 rayDir) {
 
 vec3 calcNormal(vec3 p)
 {
-    const vec2 h = vec2(EPSILON,0);
+    const vec2 h = vec2(EPSILON, 0);
     return normalize( vec3(sdf_scene(p+h.xyy) - sdf_scene(p-h.xyy),
                            sdf_scene(p+h.yxy) - sdf_scene(p-h.yxy),
                            sdf_scene(p+h.yyx) - sdf_scene(p-h.yyx) ) );
 }
 
-vec3 phong(vec3 hitPos, vec3 eye, vec3 lightPos, vec3 lightColor) {
+vec3 phong(vec3 eye, vec3 hitPos, vec3 lightPos, vec3 lightcolour) {
 	vec3 normal = calcNormal(hitPos);
 	vec3 lightDir = normalize(lightPos-hitPos);
 	vec3 viewDir = normalize(eye-hitPos);
@@ -93,42 +98,38 @@ vec3 phong(vec3 hitPos, vec3 eye, vec3 lightPos, vec3 lightColor) {
 	// Geordie
 	float specular = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
 
-	vec3 objectColor = vec3(1.0, 1.0, 1.0);
+	vec3 objectcolour = WHITE;
 
-	return objectColor*(ambient+diffuse)*lightColor+specular*lightColor;
+	return objectcolour*(ambient+diffuse)*lightcolour+specular*lightcolour;
 }
 
-out vec4 fragColor;
+out vec4 fragcolour;
 void main()
 {
-	vec2 res = uTDOutputInfo.res.zw;
+	// boilerplate
+	vec2 res 		= uTDOutputInfo.res.zw;
+	float fov 		= 60.0;
+	vec3 eye 		= vec3(0.0, 0.0, 7.0);
 
-	float fov = 60.0;
-	vec3 eye = vec3(0.0, 0.0, 7.0);
-	vec3 rayDir = rayDirection(fov, res);
+	vec3 ray_dir 	= rayDirection(fov, res);
+	float depth 	= march(eye, ray_dir);
+	vec3 hit_pos	= eye + ray_dir * depth;
 
-	float depth = march(eye, rayDir);
+	// Simple
+	// vec3 colour = GREEN;
+	// vec3 colour = calcNormal(hit_pos);
 
-	vec3 hitPosition = eye+rayDir*depth;
+	// Phong
+	vec3 light_pos 		= vec3(3, 4, 4);
+	vec3 light_colour	= GREEN;
+	vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
 
-	vec3 normal = calcNormal(hitPosition);
-
-	vec3 color = vec3(.0);
-
-	color = phong(hitPosition, eye, vec3(0, 0, 3),
-		vec3(1, 1, 1));
-
-	color = normal;
-
-	float alpha = 1.0;
+	// No hits --> black
 	if (depth >= MAX_DIST)
 	{
-		color = vec3(0.);
-		alpha = 1.0;
+		colour = BLACK;
 	}
 
-	// color = vec3(0.0, 0.0, 1.0);
-
-	fragColor = TDOutputSwizzle(vec4(color, alpha));
-
+	float alpha = 1.0;
+	fragcolour = TDOutputSwizzle(vec4(colour, alpha));
 }
