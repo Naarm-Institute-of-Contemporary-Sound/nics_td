@@ -149,7 +149,6 @@ void main()
 		4 + sin(time_abs*.95) * 2,
 		3
 	);
-
 	// vec3 light_colour	= ORANGE;
 	// vec3 light_colour	= vec3(1, sin(time_abs), 0);
 	vec3 light_colour	= vec3(
