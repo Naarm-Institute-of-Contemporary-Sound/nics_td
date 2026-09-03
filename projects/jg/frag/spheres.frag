@@ -17,8 +17,10 @@ const vec3 BLUE 	= vec3(0, 0, 1);
 
 // Vars from TD
 uniform vec4 time;
-float time_frame = time.x / 100;
-float time_absframe = time.y / 100;
+float time_frame = time.x;
+float time_absframe = time.y;
+// float time_frame = mod(time.x, 100);
+// float time_absframe = time.y;
 
 float sdf_box( vec3 p, vec3 b ){
 	vec3 q = abs(p) - b;
@@ -66,7 +68,8 @@ float sdf_scene(vec3 p) {
 		// float(sin(time)),
 		// float(p.x + sin(time)),
 		// float(p.x + sin(time_frame)),
-		float(p.x + sin(time_absframe)),
+		float(p.x + sin(time_absframe)), // smooth!
+		// float(p.x + mod(time_absframe, 10)), // linear, jumps
 		p.y,
 		p.z
 	));
