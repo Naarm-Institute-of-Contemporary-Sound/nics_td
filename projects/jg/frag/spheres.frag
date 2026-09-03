@@ -12,23 +12,24 @@ const vec3 WHITE 	= vec3(1, 1, 1);
 const vec3 RED 		= vec3(1, 0, 0);
 const vec3 GREEN 	= vec3(0, 1, 0);
 const vec3 BLUE 	= vec3(0, 0, 1);
+const vec3 ORANGE 	= vec3(1, 0.5, 0);
 
 // #define TAU 6.28318530718
 
 // Vars from TD
 uniform vec4 time;
-float time_frame = time.x;
-float time_absframe = time.y;
+// float time_frame = time.x;
 // float time_frame = mod(time.x, 100);
-// float time_absframe = time.y;
+float time_abs = time.y;
+// float time_sin = sin(time_abs);
 
 float sdf_box( vec3 p, vec3 b ){
 	vec3 q = abs(p) - b;
 	return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
-float sdf_sphere(vec3 pos) {
-	return length(pos) - 1.0;
+float sdf_sphere(vec3 pos, float size) {
+	return length(pos) - size;
 }
 
 // Rotating function
@@ -63,16 +64,18 @@ float sdf_scene(vec3 p) {
 	// return min(s1, s2);
 
 	// MOVING BALL
-  	return sdf_sphere(vec3(
-		// p.x,
-		// float(sin(time)),
-		// float(p.x + sin(time)),
-		// float(p.x + sin(time_frame)),
-		float(p.x + sin(time_absframe)), // smooth!
-		// float(p.x + mod(time_absframe, 10)), // linear, jumps
-		p.y,
-		p.z
-	));
+  	return sdf_sphere(
+		vec3(
+			// p.x,
+			p.x + sin(time_abs * .9), // smooth!
+			// p.y,
+			p.y + cos(time_abs * .8), // smooth!
+			// p.z
+			p.z + 3 // Avoid dipping below surface
+		),
+		// size
+		2 + sin(time_abs * 1.5)
+	);
 
 }
 
@@ -95,8 +98,7 @@ float march(vec3 eye, vec3 rayDir) {
 	return MAX_DIST;
 }
 
-vec3 calcNormal(vec3 p)
-{
+vec3 calcNormal(vec3 p) {
     const vec2 h = vec2(EPSILON, 0);
     return normalize( vec3(sdf_scene(p+h.xyy) - sdf_scene(p-h.xyy),
                            sdf_scene(p+h.yxy) - sdf_scene(p-h.yxy),
@@ -140,17 +142,33 @@ void main()
 	// vec3 colour = calcNormal(hit_pos);
 
 	// Phong
-	vec3 light_pos 		= vec3(3, 4, 4);
-	// vec3 light_pos 		= vec3(time.x, 4, 4);
-	vec3 light_colour	= GREEN;
+	// vec3 light_pos = vec3(3, 4, 4); // bit far away
+	// vec3 light_pos = vec3(0.5, 5, 3);
+	vec3 light_pos = vec3(
+		sin(time_abs*1.2) * 5,
+		4 + sin(time_abs*.95) * 2,
+		3
+	);
+
+	// vec3 light_colour	= ORANGE;
+	// vec3 light_colour	= vec3(1, sin(time_abs), 0);
+	vec3 light_colour	= vec3(
+		1,
+		// cos(time_abs),
+		sin(time_abs),
+		0.5
+		// sin(time_abs)
+		// tan(time_abs)
+	);
 	vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
 
 	// No hits --> black
+	float alpha = 1.0;
 	if (depth >= MAX_DIST)
 	{
 		colour = BLACK;
+		alpha = 0.0;
 	}
 
-	float alpha = 1.0;
 	fragcolour = TDOutputSwizzle(vec4(colour, alpha));
 }
