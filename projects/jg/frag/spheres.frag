@@ -15,7 +15,10 @@ const vec3 BLUE 	= vec3(0, 0, 1);
 
 // #define TAU 6.28318530718
 
+// Vars from TD
 uniform vec4 time;
+float time_frame = time.x / 100;
+float time_absframe = time.y / 100;
 
 float sdf_box( vec3 p, vec3 b ){
 	vec3 q = abs(p) - b;
@@ -49,11 +52,25 @@ float smoothDifferenceSDF(float a, float b, float k) {
 }
 
 float sdf_scene(vec3 p) {
+	// ONE BALL
   	// return sdf_sphere(p);
-	float s1 = sdf_sphere(vec3(p.x+1.5, p.y, p.z));
-	float s2 = sdf_sphere(vec3(p.x-1.5, p.y, p.z));
 
-	return min(s1, s2);
+	// TWO BALLS
+	// float s1 = sdf_sphere(vec3(p.x+1.5, p.y, p.z));
+	// float s2 = sdf_sphere(vec3(p.x-1.5, p.y, p.z));
+	// return min(s1, s2);
+
+	// MOVING BALL
+  	return sdf_sphere(vec3(
+		// p.x,
+		// float(sin(time)),
+		// float(p.x + sin(time)),
+		// float(p.x + sin(time_frame)),
+		float(p.x + sin(time_absframe)),
+		p.y,
+		p.z
+	));
+
 }
 
 vec3 rayDirection(float fov, vec2 resolution) {
@@ -121,6 +138,7 @@ void main()
 
 	// Phong
 	vec3 light_pos 		= vec3(3, 4, 4);
+	// vec3 light_pos 		= vec3(time.x, 4, 4);
 	vec3 light_colour	= GREEN;
 	vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
 
