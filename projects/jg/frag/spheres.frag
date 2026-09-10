@@ -72,19 +72,21 @@ float sdf_scene(vec3 p) {
 	// return min(s1, s2);
 
 
-	// ROTATE
-	float offset 			= mod(time_abs * 0.3, TAU);
-	// p.xz 					= rot(p.xz, offset);
+	// SPACE WARP - VARIABLE OFFSET
+	// float time_scale		= 0.003;
+	// float offset 			= mod(time_abs * time_scale, TAU);
+	// p.xz 					= rot(p.xz, offset); // TODO find rot()
 
 	// SPACE WARP
 	int warp_iterations 	= 3;
-	float scale 			= 2;
+	float offset			= 0.1;
+	float scale 			= 1.1;
 	for (int i = 0; i < warp_iterations; i++) {
 		p = space_warp(p, offset, scale);
 	}
   	return sdf_sphere(p,
-		1
-		// 2 + sin(time_abs * 1.5)
+		1.75	 // static size
+		// 0.7 + sin(time_abs * 0.7) // variable size
 	);
 
 	// // MOVING BALL
@@ -163,28 +165,28 @@ void main()
 
 	// Simple
 	// vec3 colour = GREEN;
-	// vec3 colour = calcNormal(hit_pos);
+	vec3 colour = calcNormal(hit_pos);
 
-	// Phong
-	// vec3 light_pos = vec3(3, 4, 4); // bit far away
-	// vec3 light_pos = vec3(0.5, 5, 3);
-	vec3 light_pos = vec3(
-		sin(time_abs*1.2) * 5,
-		4 + sin(time_abs*.95) * 2,
-		3
-	);
-	// vec3 light_colour	= ORANGE;
-	// vec3 light_colour	= BLUE;
-	// vec3 light_colour	= vec3(1, sin(time_abs), 0);
-	vec3 light_colour	= vec3(
-		// 1,
-		cos(time_abs),
-		sin(time_abs),
-		0.5
-		// sin(time_abs),
-		// tan(time_abs)
-	);
-	vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
+	// // Phong
+	// // vec3 light_pos = vec3(3, 4, 4); // bit far away
+	// // vec3 light_pos = vec3(0.5, 5, 3);
+	// vec3 light_pos = vec3(
+	// 	sin(time_abs*1.2) * 5,
+	// 	4 + sin(time_abs*.95) * 2,
+	// 	3
+	// );
+	// // vec3 light_colour	= ORANGE;
+	// // vec3 light_colour	= BLUE;
+	// // vec3 light_colour	= vec3(1, sin(time_abs), 0);
+	// vec3 light_colour	= vec3(
+	// 	// 1,
+	// 	cos(time_abs),
+	// 	sin(time_abs),
+	// 	0.5
+	// 	// sin(time_abs),
+	// 	// tan(time_abs)
+	// );
+	// vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
 
 	// No hits --> black
 	float alpha = 1.0;
