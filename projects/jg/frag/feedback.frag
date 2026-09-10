@@ -9,6 +9,10 @@ void main()
     // Coords of current pixel
     vec2 uv = vUV.st;
 
+    // offset coords
+    // NOTE: revert coords to (0,0) --> offset --> correct
+    float offset    = 0.95;
+    vec2 uv_offset  = (uv - 0.5) * offset + 0.5;
 
     // Get pixels
     vec4 px_current     = texture(sTD2DInputs[0], uv); // glsl_generate
@@ -16,9 +20,6 @@ void main()
     vec4 px_previous    = texture(sTD2DInputs[1], uv_offset); // feedback1
 
 
-    // revert coords to (0,0) --> offset --> correct
-    float offset    = 0.95;
-    vec2 uv_offset  = (uv - 0.5) * offset + 0.5;
 
 
     // basic blur

@@ -6,6 +6,7 @@
 const int MAX_STEPS 	= 128;
 const float MAX_DIST 	= 100.0;
 const float EPSILON 	= 0.001;
+const float TAU 		= 6.28318530718;
 
 const vec3 BLACK 	= vec3(0, 0, 0);
 const vec3 WHITE 	= vec3(1, 1, 1);
@@ -14,7 +15,6 @@ const vec3 GREEN 	= vec3(0, 1, 0);
 const vec3 BLUE 	= vec3(0, 0, 1);
 const vec3 ORANGE 	= vec3(1, 0.5, 0);
 
-// #define TAU 6.28318530718
 
 // Vars from TD
 uniform vec4 time;
@@ -54,6 +54,14 @@ float smoothDifferenceSDF(float a, float b, float k) {
     return -opSmoothUnion(-a, b, k);
 }
 
+vec3 space_warp(vec3 p, float offset, float scale) {
+	return vec3(
+		p.xyz + (
+			sin(p.yzx * scale + offset) / scale
+		)
+	);
+}
+
 float sdf_scene(vec3 p) {
 	// ONE BALL
   	// return sdf_sphere(p);
@@ -63,19 +71,35 @@ float sdf_scene(vec3 p) {
 	// float s2 = sdf_sphere(vec3(p.x-1.5, p.y, p.z));
 	// return min(s1, s2);
 
-	// MOVING BALL
-  	return sdf_sphere(
-		vec3(
-			// p.x,
-			p.x + sin(time_abs * .9), // smooth!
-			// p.y,
-			p.y + cos(time_abs * .8), // smooth!
-			// p.z
-			p.z + 3 // Avoid dipping below surface
-		),
-		// size
-		2 + sin(time_abs * 1.5)
+
+	// ROTATE
+	float offset 			= mod(time_abs * 0.3, TAU);
+	// p.xz 					= rot(p.xz, offset);
+
+	// SPACE WARP
+	int warp_iterations 	= 3;
+	float scale 			= 2;
+	for (int i = 0; i < warp_iterations; i++) {
+		p = space_warp(p, offset, scale);
+	}
+  	return sdf_sphere(p,
+		1
+		// 2 + sin(time_abs * 1.5)
 	);
+
+	// // MOVING BALL
+  	// return sdf_sphere(
+	// 	vec3(
+	// 		// p.x,
+	// 		p.x + sin(time_abs * .9), // smooth!
+	// 		// p.y,
+	// 		p.y + cos(time_abs * .8), // smooth!
+	// 		// p.z
+	// 		p.z + 3 // Avoid dipping below surface
+	// 	),
+	// 	// size
+	// 	2 + sin(time_abs * 1.5)
+	// );
 
 }
 
@@ -150,13 +174,14 @@ void main()
 		3
 	);
 	// vec3 light_colour	= ORANGE;
+	// vec3 light_colour	= BLUE;
 	// vec3 light_colour	= vec3(1, sin(time_abs), 0);
 	vec3 light_colour	= vec3(
-		1,
-		// cos(time_abs),
+		// 1,
+		cos(time_abs),
 		sin(time_abs),
 		0.5
-		// sin(time_abs)
+		// sin(time_abs),
 		// tan(time_abs)
 	);
 	vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
