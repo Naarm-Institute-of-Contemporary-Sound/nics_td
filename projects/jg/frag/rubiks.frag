@@ -54,55 +54,14 @@ float smoothDifferenceSDF(float a, float b, float k) {
     return -opSmoothUnion(-a, b, k);
 }
 
-vec3 space_warp(vec3 p, float offset, float scale) {
-	return vec3(
-		p.xyz + (
-			sin(p.yzx * scale + offset) / scale
-		)
-	);
-}
-
 float sdf_scene(vec3 p) {
 	// ONE BALL
   	// return sdf_sphere(p);
 
-	// TWO BALLS
-	// float s1 = sdf_sphere(vec3(p.x+1.5, p.y, p.z));
-	// float s2 = sdf_sphere(vec3(p.x-1.5, p.y, p.z));
-	// return min(s1, s2);
 
-
-	// SPACE WARP - VARIABLE OFFSET
-	// float time_scale		= 0.003;
-	// float offset 			= mod(time_abs * time_scale, TAU);
-	// p.xz 					= rot(p.xz, offset); // TODO find rot()
-
-	// SPACE WARP
-	int warp_iterations 	= 3;
-	float offset			= 0.1;
-	float scale 			= 1.1;
-	for (int i = 0; i < warp_iterations; i++) {
-		p = space_warp(p, offset, scale);
-	}
-  	return sdf_sphere(p,
-		1.5	 // static size
-		// 0.7 + sin(time_abs * 0.7) // variable size
-	);
-
-	// // MOVING BALL
-  	// return sdf_sphere(
-	// 	vec3(
-	// 		// p.x,
-	// 		p.x + sin(time_abs * .9), // smooth!
-	// 		// p.y,
-	// 		p.y + cos(time_abs * .8), // smooth!
-	// 		// p.z
-	// 		p.z + 3 // Avoid dipping below surface
-	// 	),
-	// 	// size
-	// 	2 + sin(time_abs * 1.5)
-	// );
-
+	// CUBE
+	// return sdf_cube()
+	return sdf_box(p, vec3(1));
 }
 
 vec3 rayDirection(float fov, vec2 resolution) {
@@ -165,28 +124,28 @@ void main()
 
 	// Simple
 	// vec3 colour = GREEN;
-	vec3 colour = calcNormal(hit_pos);
+	// vec3 colour = calcNormal(hit_pos);
 
-	// // Phong
-	// // vec3 light_pos = vec3(3, 4, 4); // bit far away
-	// // vec3 light_pos = vec3(0.5, 5, 3);
-	// vec3 light_pos = vec3(
-	// 	sin(time_abs*1.2) * 5,
-	// 	4 + sin(time_abs*.95) * 2,
-	// 	3
-	// );
-	// // vec3 light_colour	= ORANGE;
-	// // vec3 light_colour	= BLUE;
-	// // vec3 light_colour	= vec3(1, sin(time_abs), 0);
-	// vec3 light_colour	= vec3(
-	// 	// 1,
-	// 	cos(time_abs),
-	// 	sin(time_abs),
-	// 	0.5
-	// 	// sin(time_abs),
-	// 	// tan(time_abs)
-	// );
-	// vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
+	// Phong
+	// vec3 light_pos = vec3(3, 4, 4); // bit far away
+	// vec3 light_pos = vec3(0.5, 5, 3);
+	vec3 light_pos = vec3(
+		sin(time_abs*1.2) * 5,
+		4 + sin(time_abs*.95) * 2,
+		3
+	);
+	// vec3 light_colour	= ORANGE;
+	// vec3 light_colour	= BLUE;
+	// vec3 light_colour	= vec3(1, sin(time_abs), 0);
+	vec3 light_colour	= vec3(
+		// 1,
+		cos(time_abs),
+		sin(time_abs),
+		0.5
+		// sin(time_abs),
+		// tan(time_abs)
+	);
+	vec3 colour 		= phong(eye, hit_pos, light_pos, light_colour);
 
 	// No hits --> black
 	float alpha = 1.0;
